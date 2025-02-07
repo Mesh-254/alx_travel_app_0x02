@@ -31,9 +31,19 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # chapa API secret key and Publick key
-
 CHAPA_SECRET_KEY = env('CHAPA_SECRET_KEY')
 CHAPA_PUBLIC_KEY = env('CHAPA_PUBLIC_KEY')
+
+CHAPA_CALLBACK_URL = 'http://127.0.0.1:8000/verify_payment/'
+
+
+# celey configs
+CELERY_BROKER_URL = 'pyamqp://guest@localhost//'  # Broker URL for RabbitMQ
+
+CELERY_RESULT_BACKEND = 'rpc://'  # Backend URL for RabbitMQ
+
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
 
 
 # Quick-start development settings - unsuitable for production
@@ -63,6 +73,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'django.contrib.staticfiles',  # required for serving swagger ui's css/js files
     'drf_yasg',
+    'django_celery_results',
 ]
 
 MIDDLEWARE = [
@@ -152,3 +163,12 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Configure Django to send emails using Gmail
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # Use your email provider
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')

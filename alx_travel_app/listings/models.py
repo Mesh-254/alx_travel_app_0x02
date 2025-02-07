@@ -72,6 +72,8 @@ class Booking(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
 
+    
+
     def __str__(self):
         return f"Booking {self.booking_id} for {self.listing}"
 
